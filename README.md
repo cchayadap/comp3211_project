@@ -9,6 +9,7 @@ Command-line Personal Information Management system, Python 3 standard library o
     python3 -m unittest discover -s tests -t .
     # coverage (optional, third-party tool, not part of the product):
     # pip install coverage && coverage run --source=model -m unittest discover -s tests -t . && coverage report
+    # latest results: COVERAGE_REPORT.md
 
 ## Layout (MVC)
     model/       PIR classes, search criteria, collection, .pim storage  (unit-tested)
