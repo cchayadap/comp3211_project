@@ -12,3 +12,6 @@ Key dates: group forming 28 Sep 09:00 (changes need all members' written agreeme
 | Honour Declaration | - | Required in ZIP root (even if no GenAI used); state contribution %. Missing = up to -30%. Acknowledge any GenAI-created content. |
 
 Suggested split (3-4 people): SRS / design doc+diagrams / implementation+manuals / tests+coverage+video; everyone presents.
+
+## Known issues (starter)
+- Search parser splits `(`, `)` and `!` inside quoted text, so `contains "(draft)"` fails with "Unexpected token". Fix in `model/criteria.py` (`_split_parens` runs after quotes are removed), then add a test.
