@@ -1,7 +1,7 @@
 # Task split (4 members)
 
 Deadline: **Fri 20 Nov 2026, 20:00**, one ZIP. All documents in DOC, DOCX or PDF; videos in MP4.
-The working code (model, controller, view, 24 tests at 100% coverage) is already in this repo,
+The working code (model, controller, view, 25 tests at 100% coverage) is already in this repo,
 so the main remaining work is documents, a few code decisions, and recordings.
 
 | Role | Owns | Points at stake |
@@ -96,8 +96,6 @@ If C changes method signatures, B updates the class diagram.
 ## C: Implementation docs + code (Deliverable 3a–3d)
 
 1. **Code fixes**
-   - Fix the parser bug in `model/criteria.py`: `(`, `)` and `!` inside quoted text are treated as
-     operators (`contains "(draft)"` fails). Add a test with D.
    - Make the code follow A's decisions (see the list under A).
    - Keep everything Python standard library only.
 2. **Developer manual (3b):** Python version (3.14), recommended IDE (e.g. PyCharm or VS Code)

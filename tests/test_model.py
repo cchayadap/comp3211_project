@@ -123,6 +123,21 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(self.ids("!type=note"), {self.task.id, self.contact.id})
         self.assertEqual(self.ids("(type=task)"), {self.task.id})
 
+    def test_operators_inside_quotes_are_literal(self):
+        # US7: ( ) ! && || inside quoted text are searched for, not parsed.
+        draft = self.c.create("note", "plan (draft) v2")
+        wow = self.c.create("note", 'say "wow!" && go || stop')
+        self.assertEqual(self.ids('contains "(draft)"'), {draft.id})
+        self.assertEqual(self.ids('contains "("'), {draft.id})
+        self.assertEqual(self.ids('contains "!"'), {wow.id})
+        self.assertEqual(self.ids('contains "&&"'), {wow.id})
+        self.assertEqual(self.ids('contains "||"'), {wow.id})
+        self.assertEqual(self.ids("contains '\"wow!\"'"), {wow.id})
+        self.assertEqual(self.ids('contains "\\"wow!\\""'), {wow.id})
+        self.assertEqual(self.ids('(type=task && contains "(draft)")'), set())
+        self.assertEqual(self.ids('(type=note && !contains "(draft)")'),
+                         {self.note.id, wow.id})
+
     def test_unknown_time_operator_raises(self):
         # US7: only <, > and = are valid time operators.
         with self.assertRaises(ValueError):
@@ -134,7 +149,9 @@ class TestSearch(unittest.TestCase):
                     "( type=task type=note )",   # missing ')' before next atom
                     "type=task type=note",       # two atoms with no connector
                     "type task",                 # missing '=' after type
-                    'contains "unclosed'):       # unterminated quote
+                    'contains "unclosed',        # unterminated quote
+                    "!= type=note",              # '!=' is not an operator
+                    '"(" type=task ")"'):        # quoted parens do not group
             with self.subTest(bad=bad), self.assertRaises(ValueError):
                 parse_criterion(bad)
 
