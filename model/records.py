@@ -77,9 +77,9 @@ class Task(PIR):
     FIELDS = {"description": "text", "deadline": "time"}
 
     def __init__(self, description: str, deadline, pir_id: int = None):
+        self.deadline = parse_time(deadline) if isinstance(deadline, str) else deadline
         super().__init__(pir_id)
         self.description = description
-        self.deadline = parse_time(deadline) if isinstance(deadline, str) else deadline
 
     def __str__(self):
         return (f"[{self.id}] Task: {self.description} "
@@ -91,10 +91,10 @@ class Event(PIR):
     FIELDS = {"description": "text", "start": "time", "alarm": "time"}
 
     def __init__(self, description: str, start, alarm, pir_id: int = None):
-        super().__init__(pir_id)
-        self.description = description
         self.start = parse_time(start) if isinstance(start, str) else start
         self.alarm = parse_time(alarm) if isinstance(alarm, str) else alarm
+        super().__init__(pir_id)
+        self.description = description
 
     def __str__(self):
         return (f"[{self.id}] Event: {self.description} "

@@ -5,11 +5,14 @@ from model.records import RECORD_TYPES
 
 HELP = """Commands:
   create note "<text>"
-  create task "<description>" "<YYYY-MM-DD HH:MM>"
-  create event "<description>" "<start>" "<alarm>"
+  create task "<description>" "<deadline: YYYY-MM-DD HH:MM>"
+  create event "<description>" "<start: YYYY-MM-DD HH:MM>" "<alarm: YYYY-MM-DD HH:MM>"
   create contact "<name>" "<address>" "<mobile>"
   modify <id> <field> "<new value>"
-  search <criterion>        e.g. search type=task && time < "2026-12-01 00:00"
+      fields: [ note: text                         |  task: description, deadline       ]
+              [ event: description, start, alarm   |  contact: name, address, mobile    ]
+  search <criterion>
+      e.g. search type=task && time < "2026-12-01 00:00"
   print <id> | print all
   delete <id>
   save <file.pim>
