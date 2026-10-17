@@ -25,6 +25,28 @@ class TestRecords(unittest.TestCase):
         c = Contact("Alice", "1 Hung Hom", "91234567", pir_id=2)
         self.assertEqual(str(c), "[2] Contact: Alice, 1 Hung Hom, mobile 91234567")
 
+    def test_blank_text_rejected(self):
+        # FR-05 (GAP-01): blank or whitespace-only text is rejected on create and modify.
+        for bad in ("", "   "):
+            with self.assertRaises(ValueError):
+                Note(bad)
+            with self.assertRaises(ValueError):
+                Contact("Bob", bad, "123")
+        note = Note("keep")
+        with self.assertRaises(ValueError):
+            note.set("text", "  ")
+        self.assertEqual(note.text, "keep")
+
+    def test_non_string_values_rejected(self):
+        # FR-48 (GAP-04): text and time values must be strings (or datetimes).
+        with self.assertRaises(ValueError):
+            Note(5)
+        with self.assertRaises(ValueError):
+            Task("x", 5)
+        # an already-parsed datetime is accepted as-is
+        when = Task("x", "2026-10-15 12:00").deadline
+        self.assertEqual(Task("y", when).deadline, when)
+
     def test_get_unknown_field_raises(self):
         # Reading a field the PIR type does not have raises KeyError.
         with self.assertRaises(KeyError):
@@ -189,6 +211,37 @@ class TestStorage(unittest.TestCase):
                 f.write("not json\n")
             with self.assertRaises(ValueError):
                 load_pim(path)
+
+    def _load_text(self, text):
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "x.pim")
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(text)
+            return load_pim(path)
+
+    def test_non_object_line_rejected(self):
+        # FR-47 (GAP-02): valid JSON that is not an object raises ValueError.
+        for line in ('"hello"\n', "null\n", "[1, 2]\n"):
+            with self.assertRaises(ValueError):
+                self._load_text(line)
+
+    def test_bad_ids_rejected(self):
+        # FR-48 (GAP-03): duplicate, non-positive and non-integer ids are rejected.
+        dup = ('{"type": "note", "id": 1, "text": "a"}\n'
+               '{"type": "note", "id": 1, "text": "b"}\n')
+        with self.assertRaises(ValueError):
+            self._load_text(dup)
+        for bad_id in ("0", "-4", "1.5", "true", '"1"'):
+            with self.assertRaises(ValueError):
+                self._load_text('{"type": "note", "id": %s, "text": "a"}\n' % bad_id)
+
+    def test_non_string_field_values_rejected(self):
+        # FR-48 (GAP-04): numeric text or time values in a file are rejected.
+        for line in ('{"type": "note", "id": 1, "text": 5}\n',
+                     '{"type": "task", "id": 1, "description": "x", "deadline": 5}\n',
+                     '{"type": "note", "id": 1, "text": "  "}\n'):
+            with self.assertRaises(ValueError):
+                self._load_text(line)
 
 
 if __name__ == "__main__":

@@ -23,7 +23,8 @@ HELP = """Commands:
 
 class CommandController:
     def __init__(self, collection: PIMCollection = None):
-        self.collection = collection or PIMCollection()
+        # explicit None check: an empty PIMCollection is falsy but must be kept
+        self.collection = collection if collection is not None else PIMCollection()
         self.running = True
 
     def execute(self, line: str) -> str:

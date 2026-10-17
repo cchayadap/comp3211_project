@@ -17,6 +17,24 @@ def format_time(value: datetime) -> str:
     return value.strftime(TIME_FORMAT)
 
 
+def check_text(value) -> str:
+    """Return value unchanged if it is non-blank text. Raises ValueError otherwise."""
+    if not isinstance(value, str):
+        raise ValueError(f"Text value must be a string, got {value!r}")
+    if not value.strip():
+        raise ValueError("Text value must not be blank")
+    return value
+
+
+def to_time(value) -> datetime:
+    """Accept a datetime or a 'YYYY-MM-DD HH:MM' string. Raises ValueError otherwise."""
+    if isinstance(value, datetime):
+        return value
+    if isinstance(value, str):
+        return parse_time(value)
+    raise ValueError(f"Time value must be a string, got {value!r}")
+
+
 class PIR(ABC):
     """Base class of all personal information records."""
     TYPE = "pir"
@@ -41,7 +59,7 @@ class PIR(ABC):
         kind = self.FIELDS.get(field)
         if kind is None:
             raise KeyError(f"{self.TYPE} has no field '{field}'")
-        setattr(self, field, parse_time(value) if kind == "time" else value)
+        setattr(self, field, to_time(value) if kind == "time" else check_text(value))
 
     def text_fields(self):
         return [self.get(f) for f, k in self.FIELDS.items() if k == "text"]
@@ -65,8 +83,8 @@ class Note(PIR):
     FIELDS = {"text": "text"}
 
     def __init__(self, text: str, pir_id: int = None):
+        self.text = check_text(text)
         super().__init__(pir_id)
-        self.text = text
 
     def __str__(self):
         return f"[{self.id}] Note: {self.text}"
@@ -77,9 +95,9 @@ class Task(PIR):
     FIELDS = {"description": "text", "deadline": "time"}
 
     def __init__(self, description: str, deadline, pir_id: int = None):
-        self.deadline = parse_time(deadline) if isinstance(deadline, str) else deadline
+        self.description = check_text(description)
+        self.deadline = to_time(deadline)
         super().__init__(pir_id)
-        self.description = description
 
     def __str__(self):
         return (f"[{self.id}] Task: {self.description} "
@@ -91,10 +109,10 @@ class Event(PIR):
     FIELDS = {"description": "text", "start": "time", "alarm": "time"}
 
     def __init__(self, description: str, start, alarm, pir_id: int = None):
-        self.start = parse_time(start) if isinstance(start, str) else start
-        self.alarm = parse_time(alarm) if isinstance(alarm, str) else alarm
+        self.description = check_text(description)
+        self.start = to_time(start)
+        self.alarm = to_time(alarm)
         super().__init__(pir_id)
-        self.description = description
 
     def __str__(self):
         return (f"[{self.id}] Event: {self.description} "
@@ -106,10 +124,10 @@ class Contact(PIR):
     FIELDS = {"name": "text", "address": "text", "mobile": "text"}
 
     def __init__(self, name: str, address: str, mobile: str, pir_id: int = None):
+        self.name = check_text(name)
+        self.address = check_text(address)
+        self.mobile = check_text(mobile)
         super().__init__(pir_id)
-        self.name = name
-        self.address = address
-        self.mobile = mobile
 
     def __str__(self):
         return (f"[{self.id}] Contact: {self.name}, {self.address}, "

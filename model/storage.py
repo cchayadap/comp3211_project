@@ -20,6 +20,7 @@ def load_pim(path: str) -> PIMCollection:
     """Load a .pim file into a NEW collection. Raises on bad content."""
     _check_ext(path)
     result = PIMCollection()
+    seen = set()
     with open(path, "r", encoding="utf-8") as f:
         for n, line in enumerate(f, 1):
             line = line.strip()
@@ -27,8 +28,16 @@ def load_pim(path: str) -> PIMCollection:
                 continue
             try:
                 data = json.loads(line)
+                if not isinstance(data, dict):
+                    raise ValueError("expected a JSON object")
                 cls = RECORD_TYPES[data.pop("type")]
                 pir_id = data.pop("id")
+                # bool is a subclass of int, so exclude it explicitly
+                if type(pir_id) is not int or pir_id <= 0:
+                    raise ValueError(f"invalid id {pir_id!r}")
+                if pir_id in seen:
+                    raise ValueError(f"duplicate id {pir_id}")
+                seen.add(pir_id)
                 result.add(cls(**data, pir_id=pir_id))
             except (ValueError, KeyError, TypeError) as e:
                 raise ValueError(f"Corrupt .pim file at line {n}: {e}")
