@@ -1,7 +1,7 @@
 # Requirements Coverage Report (Deliverable 3e)
 
 This report maps every user story and every SRS requirement to its implementation status.
-Requirement IDs are taken from `srs/SRS.md`, version 0.4 (18 October 2026). Tests live in `tests/test_model.py`
+Requirement IDs are taken from the SRS (`srs/COMP3211_PIM_SRS.docx`), version 0.4 (18 October 2026). Tests live in `tests/test_model.py`
 and `tests/test_controller.py`; "Manual" means the requirement is checked by running the program, with no automated test.
 
 **Summary:** 11 of 11 user stories are implemented. Every requirement in the table below is implemented: 59 functional (FR), 6 non-functional (NFR) and 7 constraints (CON).

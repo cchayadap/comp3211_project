@@ -8,7 +8,7 @@ so the main remaining work is documents, a few code decisions, and recordings.
 
 | Deliverable | Owner | Status |
 |---|---|---|
-| SRS (`srs/SRS.md`, v0.4) | Jiayi | Done; group decisions in SRS 6.14 still open |
+| SRS (`srs/COMP3211_PIM_SRS.docx`, v0.4) | Jiayi | Done; group decisions in SRS 6.14 still open |
 | Code + SRS gap fixes (GAP-01–05) | Chompoo | Done |
 | Requirements coverage table (`REQUIREMENTS_COVERAGE.md`) | Chompoo | Done, mapped to SRS v0.4 IDs |
 | Unit tests + line coverage report (`COVERAGE_REPORT.md`) | Chompoo | Done (32 tests, 100%); re-run before submission |
