@@ -5,7 +5,7 @@ Line coverage of the `model` package by the unit tests in `tests/`.
 - Date: 2026-10-18
 - Python: 3.14.6
 - Tool: Coverage.py 7.16.2 (dev-only, not used by the system)
-- Result: 32 tests run, all pass (31 model tests, 1 controller test)
+- Result: 31 tests run, all pass (30 model tests, 1 controller test)
 
 | File | Statements | Missed | Coverage |
 |---|---|---|---|

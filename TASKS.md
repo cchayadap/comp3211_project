@@ -1,7 +1,7 @@
 # Task split (4 members)
 
 Deadline: **Fri 20 Nov 2026, 20:00**, one ZIP. All documents in DOC, DOCX or PDF; videos in MP4.
-The working code (model, controller, view, 32 tests at 100% coverage) is already in this repo,
+The working code (model, controller, view, 31 tests at 100% coverage) is already in this repo,
 so the main remaining work is documents, a few code decisions, and recordings.
 
 ## Status (18 Oct 2026)
@@ -11,7 +11,7 @@ so the main remaining work is documents, a few code decisions, and recordings.
 | SRS (`srs/COMP3211_PIM_SRS.docx`, v0.4) | Jiayi | Done; group decisions in SRS 6.14 still open |
 | Code + SRS gap fixes (GAP-01–05) | Chompoo | Done |
 | Requirements coverage table (`REQUIREMENTS_COVERAGE.md`) | Chompoo | Done, mapped to SRS v0.4 IDs |
-| Unit tests + line coverage report (`COVERAGE_REPORT.md`) | Chompoo | Done (32 tests, 100%); re-run before submission |
+| Unit tests + line coverage report (`COVERAGE_REPORT.md`) | Chompoo | Done (31 tests, 100%); re-run before submission |
 | Design doc: architecture, class, search-then-update sequence diagrams + text | Juhee | To do |
 | Developer manual, user manual | Inha | To do |
 | Demo video (≤ 4 min MP4) | — | To do; owner not assigned |

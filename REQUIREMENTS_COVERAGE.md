@@ -43,7 +43,7 @@ field-specific search. If either answer is yes, the affected story becomes parti
 | FR-13 | Rejected creation leaves collection unchanged | Yes | Validation before `PIR.__init__` | `test_blank_text_rejected`; Manual |
 | FR-14 | `Created ...` message | Yes | `_cmd_create` | Manual |
 | FR-15 | `modify <id> <field> <value>` | Yes | `_cmd_modify` | Manual |
-| FR-16 | Editable fields per type | Yes | `PIR.FIELDS`, `PIR.set` | `test_modify_field`, `test_modify_time_field`, `test_modify_unknown_field_raises` |
+| FR-16 | Editable fields per type | Yes | `PIR.FIELDS`, `PIR.set` | `test_modify_field`, `test_modify_time_field`, `test_modify_unknown_field_raises`, `test_get_unknown_field_raises` |
 | FR-17 | Update preserves everything else | Yes | `PIR.set` | Manual |
 | FR-18 | Missing ID error on modify | Yes | `PIMCollection.get` | Manual |
 | FR-19 | Invalid value rejected, record unchanged | Yes | `PIR.set` | `test_blank_text_rejected` |
@@ -75,7 +75,7 @@ field-specific search. If either answer is yes, the affected story becomes parti
 | FR-45 | `Saved ...` message; file errors reported | Yes | `_cmd_save`, `execute` | Manual |
 | FR-46 | Overwrite without confirmation | Yes | `save_pim` (`open(..., "w")`) | Manual |
 | FR-47 | Invalid files rejected with an error | Yes | `load_pim` | `test_corrupt_file`, `test_non_object_line_rejected` |
-| FR-48 | Whole file validated (types, fields, values, unique IDs) | Yes | `load_pim`, `check_text`, `to_time` | `test_bad_ids_rejected`, `test_non_string_field_values_rejected` |
+| FR-48 | Whole file validated (types, fields, values, unique IDs) | Yes | `load_pim`, `check_text`, `to_time` | `test_bad_ids_rejected`, `test_non_string_field_values_rejected`, `test_non_string_values_rejected` |
 | FR-49 | Load replaces the collection | Yes | `_cmd_load` | Manual |
 | FR-50 | Load preserves values; blank lines ignored | Yes | `load_pim` | `test_round_trip`, `test_blank_lines_ignored` |
 | FR-51 | Failed load keeps prior collection | Yes | `_cmd_load` (assigns only on success) | Manual |
@@ -95,7 +95,7 @@ field-specific search. If either answer is yes, the affected story becomes parti
 | NFR-01 | Bad input never ends the session | Yes | Manual probe (SRS [S6]) |
 | NFR-02 | Rejected operations preserve data | Yes | `test_blank_text_rejected`; Manual |
 | NFR-03 | Save/load round trip preserves values | Yes | `test_round_trip` |
-| NFR-04 | Model callable without terminal input | Yes | Whole unit suite (32 tests) |
+| NFR-04 | Model callable without terminal input | Yes | Whole unit suite (31 tests) |
 | NFR-05 | Works offline | Yes | Inspection (no network imports) |
 | NFR-06 | Errors give a reason; records show their fields | Yes | `test_str_shows_all_fields`; Manual |
 | CON-01 | Command-line interface | Yes | `view/cli.py` |
@@ -103,7 +103,7 @@ field-specific search. If either answer is yes, the affected story becomes parti
 | CON-03 | Python | Yes | Inspection |
 | CON-04 | Standard library only | Yes | Inspection (shlex, abc, json, datetime) |
 | CON-05 | Model code in `model` package | Yes | Inspection |
-| CON-06 | Automated model unit tests pass | Yes | 32 tests pass; see `COVERAGE_REPORT.md` |
+| CON-06 | Automated model unit tests pass | Yes | 31 tests pass; see `COVERAGE_REPORT.md` |
 | CON-07 | Requirements are valid, consistent, complete, realistic, verifiable | Yes | SRS review |
 
 Many controller-level requirements (output messages, ID parsing, `help`, `quit`) are verified only manually, because
