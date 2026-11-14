@@ -15,8 +15,16 @@ Command-line Personal Information Management system, Python 3 standard library o
     model/       PIR classes, search criteria, collection, .pim storage  (unit-tested)
     controller/  CommandController: parses commands, calls the model
     view/        console loop
-    tests/       unittest tests for model/
+    tests/       unittest tests for model/ and controller/
     main.py      entry point
+
+## Documents
+    srs/         Software Requirements Specification
+    design_doc/  design document (.docx + .pdf)
+    manuals/     user manual and developer manual
+    planning/    internal project plan and task split (not a deliverable)
+    COVERAGE_REPORT.md        unit test coverage report
+    REQUIREMENTS_COVERAGE.md  requirements coverage report
 
 ## Example session
     create note "buy milk"
